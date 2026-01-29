@@ -1,27 +1,44 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Scalar API Reference</title>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
-
   <body>
     <div id="app"></div>
-
     <!-- Load the Script -->
     <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
-
     <!-- Initialize the Scalar API Reference -->
     <script>
+      // Extract basic auth credentials from the current URL
+      const currentUrl = new URL(window.location.href);
+      const username = currentUrl.username;
+      const password = currentUrl.password;
+
+      console.log('username in href', username);
+
+      // Remove credentials from the URL in the browser history BEFORE initializing Scalar
+      if (username || password) {
+        // Replace the history state to remove credentials from the URL bar
+        const cleanUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}`;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+
+      // Build the API URL with basic auth credentials
+      let apiUrl = 'http://api.sanboard.ch/api-docs/private/spec.json';
+      if (username && password) {
+        apiUrl = `http://${username}:${password}@api.sanboard.ch/api-docs/private/spec.json`;
+      }
+
+      console.log('apiUrl', apiUrl);
+
       Scalar.createApiReference('#app', {
-        // The URL of the OpenAPI/Swagger document
-        url: 'https://api.sanboard.ch/api-docs/public/spec.json',
+        // The URL of the OpenAPI/Swagger document with basic auth
+        url: apiUrl,
         // Avoid CORS issues
         proxyUrl: 'https://proxy.scalar.com',
-      })
+      });
     </script>
   </body>
 </html>
