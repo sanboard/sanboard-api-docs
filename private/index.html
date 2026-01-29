@@ -13,15 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
     <!-- Initialize the Scalar API Reference -->
     <script>
-      // Extract username and password from query parameters
+      // Extract password from query parameters
       const currentUrl = new URL(window.location.href);
-      const username = currentUrl.searchParams.get('username');
-      const password = currentUrl.searchParams.get('password');
+      const password = currentUrl.searchParams.get('pw');
       
-      // Build the API URL with basic auth credentials
       let apiUrl = 'http://api.sanboard.ch/api-docs/private/spec.json';
       if (username && password) {
-        apiUrl = `http://${username}:${password}@api.sanboard.ch/api-docs/private/spec.json`;
+        apiUrl = `https://api.sanboard.ch/api-docs/private/spec.json?password=${password}`;
       }
       
       Scalar.createApiReference('#app', {
