@@ -16,11 +16,7 @@
       // Extract password from query parameters
       const currentUrl = new URL(window.location.href);
       const password = currentUrl.searchParams.get('pw');
-      
-      let apiUrl = 'http://api.sanboard.ch/api-docs/private/spec.json';
-      if (username && password) {
-        apiUrl = `https://api.sanboard.ch/api-docs/private/spec.json?password=${password}`;
-      }
+      const apiUrl = `https://api.sanboard.ch/api-docs/private/spec.json?password=${password}`;
       
       Scalar.createApiReference('#app', {
         // The URL of the OpenAPI/Swagger document with basic auth
